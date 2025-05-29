@@ -1,0 +1,90 @@
+groups:
+  # Alertes système générales
+  - name: system.rules
+    rules:
+      # Alerte CPU élevé
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 5m
+        labels:
+          severity: critical
+          alert_type: cpu_high
+        annotations:
+          summary: "CPU usage is above 85%"
+          description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+      # Alerte mémoire élevée
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Memory usage is above 85%"
+          description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
+
+      # Alerte espace disque faible
+      - alert: LowDiskSpace
+        expr: (node_filesystem_size_bytes - node_filesystem_free_bytes) / node_filesystem_size_bytes * 100 > 90
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Disk space is running low"
+          description: "Disk usage is {{ $value }}% on {{ $labels.instance }} for {{ $labels.mountpoint }}"
+
+      # Alerte service down
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service is down"
+          description: "{{ $labels.job }} on {{ $labels.instance }} has been down for more than 1 minute"
+
+  # Alertes Docker/conteneurs
+  - name: docker.rules
+    rules:
+      # Alerte conteneur arrêté
+      - alert: ContainerDown
+        expr: absent(container_last_seen) or (time() - container_last_seen) > 60
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container is down"
+          description: "Container {{ $labels.name }} is down for more than 1 minute"
+
+      # Alerte CPU conteneur élevé
+      - alert: ContainerHighCPU
+        expr: rate(container_cpu_usage_seconds_total[5m]) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container CPU usage is high"
+          description: "Container {{ $labels.name }} CPU usage is {{ $value }}%"
+
+      # Alerte mémoire conteneur élevée
+      - alert: ContainerHighMemory
+        expr: container_memory_usage_bytes / container_spec_memory_limit_bytes * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container memory usage is high"
+          description: "Container {{ $labels.name }} memory usage is {{ $value }}%"
+
+  # Alertes réseau
+  - name: network.rules
+    rules:
+      # Alerte trafic réseau élevé
+      - alert: HighNetworkTraffic
+        expr: rate(node_network_receive_bytes_total[5m]) + rate(node_network_transmit_bytes_total[5m]) > 100000000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High network traffic detected"
+          description: "Network traffic is {{ $value }} bytes/sec on {{ $labels.instance }}"

@@ -1,0 +1,85 @@
+# Configuration Prometheus pour la supervision système
+global:
+  scrape_interval: 15s # Intervalle de collecte par défaut
+  evaluation_interval: 15s # Intervalle d'évaluation des règles
+  external_labels:
+    monitor: 'docker-host-alpha'
+
+# Configuration des règles d'alertes
+rule_files:
+  - "rules/*.yml"
+
+# Configuration AlertManager
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Configuration des cibles de scraping
+scrape_configs:
+  # Prometheus lui-même
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    scrape_interval: 5s
+    metrics_path: /metrics
+
+  # Node Exporter - Disabled on Windows (Linux only)
+  # - job_name: 'node-exporter'
+  #   static_configs:
+  #     - targets: ['node-exporter:9100']
+  #   scrape_interval: 5s
+  #   metrics_path: /metrics
+
+  # cAdvisor - Métriques conteneurs Docker
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']  # Internal port remains 8080
+    scrape_interval: 5s
+    metrics_path: /metrics
+
+  # Windows Exporter - Métriques Windows (install on host machine)
+  - job_name: 'windows-exporter'
+    static_configs:
+      - targets: ['host.docker.internal:9182']  # Use host.docker.internal for Windows Docker Desktop
+    scrape_interval: 10s
+    metrics_path: /metrics
+
+  # Grafana - Métriques de l'interface
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['grafana:3000']
+    scrape_interval: 5s
+    metrics_path: /metrics
+
+  # Configuration pour scraper des services externes (exemple)
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - http://prometheus.io
+        - https://prometheus.io
+        - http://example.com:8080
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+# Configuration pour la découverte automatique de services Docker
+  - job_name: 'docker-containers'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '/(.+)'
+        target_label: container_name
+      - source_labels: [__meta_docker_container_label_monitoring]
+        regex: 'true'
+        action: keep

@@ -1,0 +1,36 @@
+# Configuration du provisioning des dashboards Grafana
+apiVersion: 1
+
+providers:
+  # Dashboards système
+  - name: 'system-monitoring'
+    orgId: 1
+    folder: 'System Monitoring'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/system
+
+  # Dashboards Docker
+  - name: 'docker-monitoring'
+    orgId: 1
+    folder: 'Docker Monitoring'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/docker
+
+  # Dashboards applications
+  - name: 'application-monitoring'
+    orgId: 1
+    folder: 'Application Monitoring'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/applications

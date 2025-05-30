@@ -1,10 +1,10 @@
 groups:
-  # Alertes système générales
+  # Alertes système générales Windows
   - name: system.rules
     rules:
-      # Alerte CPU élevé
+      # Alerte CPU élevé - Windows Exporter
       - alert: HighCPUUsage
-        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 30
+        expr: 100 - (avg by(instance) (rate(windows_cpu_time_total{mode="idle"}[5m])) * 100) > 30
         for: 2m
         labels:
           severity: critical
@@ -13,9 +13,9 @@ groups:
           summary: "CPU usage is above 30%"
           description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
 
-      # Alerte mémoire élevée
+      # Alerte mémoire élevée - Windows Exporter
       - alert: HighMemoryUsage
-        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+        expr: (windows_cs_physical_memory_bytes - windows_os_physical_memory_free_bytes) / windows_cs_physical_memory_bytes * 100 > 85
         for: 5m
         labels:
           severity: warning
@@ -23,15 +23,15 @@ groups:
           summary: "Memory usage is above 85%"
           description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
 
-      # Alerte espace disque faible
+      # Alerte espace disque faible - Windows Exporter
       - alert: LowDiskSpace
-        expr: (node_filesystem_size_bytes - node_filesystem_free_bytes) / node_filesystem_size_bytes * 100 > 90
+        expr: (windows_logical_disk_size_bytes - windows_logical_disk_free_bytes) / windows_logical_disk_size_bytes * 100 > 90
         for: 5m
         labels:
           severity: critical
         annotations:
           summary: "Disk space is running low"
-          description: "Disk usage is {{ $value }}% on {{ $labels.instance }} for {{ $labels.mountpoint }}"
+          description: "Disk usage is {{ $value }}% on {{ $labels.instance }} for volume {{ $labels.volume }}"
 
       # Alerte service down
       - alert: ServiceDown
@@ -42,6 +42,16 @@ groups:
         annotations:
           summary: "Service is down"
           description: "{{ $labels.job }} on {{ $labels.instance }} has been down for more than 1 minute"
+
+      # Alerte Windows Service arrêté
+      - alert: WindowsServiceDown
+        expr: windows_service_state{state="stopped"} == 1 and windows_service_start_mode{start_mode="auto"} == 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Windows service is stopped"
+          description: "Windows service {{ $labels.name }} is stopped on {{ $labels.instance }} but should be running (auto start)"
 
   # Alertes Docker/conteneurs
   - name: docker.rules
@@ -76,15 +86,15 @@ groups:
           summary: "Container memory usage is high"
           description: "Container {{ $labels.name }} memory usage is {{ $value }}%"
 
-  # Alertes réseau
+  # Alertes réseau Windows
   - name: network.rules
     rules:
-      # Alerte trafic réseau élevé
+      # Alerte trafic réseau élevé - Windows Exporter
       - alert: HighNetworkTraffic
-        expr: rate(node_network_receive_bytes_total[5m]) + rate(node_network_transmit_bytes_total[5m]) > 100000000
+        expr: rate(windows_net_bytes_received_total[5m]) + rate(windows_net_bytes_sent_total[5m]) > 100000000
         for: 5m
         labels:
           severity: warning
         annotations:
           summary: "High network traffic detected"
-          description: "Network traffic is {{ $value }} bytes/sec on {{ $labels.instance }}"
+          description: "Network traffic is {{ $value }} bytes/sec on {{ $labels.instance }} interface {{ $labels.nic }}"

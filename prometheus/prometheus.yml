@@ -46,12 +46,7 @@ scrape_configs:
     scrape_interval: 10s
     metrics_path: /metrics
 
-  # Grafana - Métriques de l'interface
-  - job_name: 'grafana'
-    static_configs:
-      - targets: ['grafana:3000']
-    scrape_interval: 5s
-    metrics_path: /metrics
+  # Grafana - x
 
   # Configuration pour scraper des services externes (temporairement désactivé)
   # - job_name: 'blackbox'

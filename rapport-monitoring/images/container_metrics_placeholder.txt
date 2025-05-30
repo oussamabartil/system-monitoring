@@ -1,2 +1,0 @@
-Placeholder pour container_metrics.png
-Ce fichier sera remplacé par un vrai graphique une fois matplotlib installé.

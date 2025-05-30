@@ -30,7 +30,7 @@ Write-Host "📁 Création des répertoires..." -ForegroundColor Yellow
 $directories = @(
     "prometheus/rules",
     "grafana/provisioning/datasources",
-    "grafana/provisioning/dashboards", 
+    "grafana/provisioning/dashboards",
     "grafana/dashboards/system",
     "grafana/dashboards/docker",
     "grafana/dashboards/applications",
@@ -93,4 +93,4 @@ Write-Host "`n💡 Conseils:" -ForegroundColor White
 Write-Host "   • Changez le mot de passe Grafana par défaut" -ForegroundColor Yellow
 Write-Host "   • Configurez les notifications d'alertes" -ForegroundColor Yellow
 Write-Host "   • Personnalisez les dashboards selon vos besoins" -ForegroundColor Yellow
-Write-Host "`n🔧 Pour arrêter: docker-compose down" -ForegroundColor White
+Write-Host "`n🔧 Pour arreter: docker-compose down" -ForegroundColor White

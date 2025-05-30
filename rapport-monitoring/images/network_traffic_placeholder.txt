@@ -1,0 +1,2 @@
+Placeholder pour network_traffic.png
+Ce fichier sera remplacé par un vrai graphique une fois matplotlib installé.

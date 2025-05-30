@@ -1,0 +1,16 @@
+Timestamp: 2025-05-30 01:41:18
+From: alertmanager@monitoring.local
+To: oussamabartil.04@gmail.com
+Peer: ('127.0.0.1', 49646)
+------------------------------
+Content-Type: multipart/mixed; boundary="===============7448827072243591718=="
+MIME-Version: 1.0
+From: alertmanager@monitoring.local
+To: oussamabartil.04@gmail.com
+Subject: [TEST] Alerte CPU Test
+--===============7448827072243591718==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Ceci est un test d'alerte CPU depuis AlertManager
+--===============7448827072243591718==--

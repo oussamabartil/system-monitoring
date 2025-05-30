@@ -1,17 +1,13 @@
 # Configuration AlertManager pour la gestion des alertes
 global:
-  smtp_smarthost: 'localhost:587'
+  smtp_smarthost: 'sandbox.smtp.mailtrap.io:2525'  # Mailtrap SMTP server
   smtp_from: 'alertmanager@monitoring.local'
-  smtp_auth_username: 'alertmanager@monitoring.local'
-  smtp_auth_password: 'password'
-
-# Configuration des templates
-templates:
-  - '/etc/alertmanager/templates/*.tmpl'
+  smtp_auth_username: '3f5687df1ffed9'              # Mailtrap username
+  smtp_auth_password: '5a5e3275b9056e'              # Mailtrap password
 
 # Configuration du routage des alertes
 route:
-  group_by: ['alertname', 'cluster', 'service']
+  group_by: ['alertname']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 1h
@@ -50,56 +46,20 @@ receivers:
   - name: 'cpu-alerts-user'
     email_configs:
       - to: 'oussamabartil.04@gmail.com'
-        subject: '[ALERT CPU] Usage CPU élevé - {{ .GroupLabels.alertname }}'
-        body: |
-          🚨 ALERTE CPU CRITIQUE 🚨
-
-          {{ range .Alerts }}
-          📊 Résumé: {{ .Annotations.summary }}
-          📝 Description: {{ .Annotations.description }}
-          🖥️  Instance: {{ .Labels.instance }}
-          ⚠️  Sévérité: {{ .Labels.severity }}
-          🕐 Heure: {{ .StartsAt.Format "2006-01-02 15:04:05" }}
-          {{ end }}
-
-          Action recommandée: Vérifiez immédiatement l'utilisation du CPU sur le système.
+        html: 'Alerte CPU détectée sur le système (seuil: 30%). Détails: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
         send_resolved: true
 
-  # Alertes critiques - Email + Slack
+  # Alertes critiques - Email
   - name: 'critical-alerts'
     email_configs:
       - to: 'admin@company.com'
-        subject: '[CRITICAL] {{ .GroupLabels.alertname }}'
-        body: |
-          {{ range .Alerts }}
-          Alert: {{ .Annotations.summary }}
-          Description: {{ .Annotations.description }}
-          Instance: {{ .Labels.instance }}
-          Severity: {{ .Labels.severity }}
-          {{ end }}
-    slack_configs:
-      - api_url: 'YOUR_SLACK_WEBHOOK_URL'
-        channel: '#alerts-critical'
-        title: 'Critical Alert'
-        text: |
-          {{ range .Alerts }}
-          *Alert:* {{ .Annotations.summary }}
-          *Description:* {{ .Annotations.description }}
-          *Instance:* {{ .Labels.instance }}
-          {{ end }}
+        html: 'Une alerte critique a été détectée. Détails: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
 
   # Alertes warning - Email seulement
   - name: 'warning-alerts'
     email_configs:
       - to: 'team@company.com'
-        subject: '[WARNING] {{ .GroupLabels.alertname }}'
-        body: |
-          {{ range .Alerts }}
-          Alert: {{ .Annotations.summary }}
-          Description: {{ .Annotations.description }}
-          Instance: {{ .Labels.instance }}
-          Severity: {{ .Labels.severity }}
-          {{ end }}
+        html: 'Une alerte warning a été détectée. Détails: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
 
 # Configuration de l'inhibition (suppression d'alertes redondantes)
 inhibit_rules:

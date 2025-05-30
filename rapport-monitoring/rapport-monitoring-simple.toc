@@ -1,0 +1,42 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Objectif du Rapport}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Contexte du Projet}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Technologies Utilisées}{2}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Architecture du Système}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Vue d'Ensemble}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Flux de Données}{3}{section.2.2}%
+\contentsline {chapter}{\numberline {3}Configuration Détaillée}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Configuration Prometheus}{5}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Configuration Globale}{5}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Cibles de Scraping}{5}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Configuration AlertManager}{5}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Configuration SMTP}{5}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Routage des Alertes}{6}{subsection.3.2.2}%
+\contentsline {chapter}{\numberline {4}Métriques et Alertes}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Métriques Système}{7}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Métriques CPU}{7}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Métriques Mémoire}{7}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Règles d'Alertes}{7}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Alertes Système}{7}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Alertes Docker}{8}{subsection.4.2.2}%
+\contentsline {chapter}{\numberline {5}Dashboards Grafana}{9}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Configuration des Sources de Données}{9}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Dashboards Disponibles}{9}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Dashboard Système}{9}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Dashboard Docker}{9}{subsection.5.2.2}%
+\contentsline {chapter}{\numberline {6}Tests et Validation}{10}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Tests Automatisés}{10}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Procédures de Test}{10}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Test de Base}{10}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Test des Alertes}{10}{subsection.6.2.2}%
+\contentsline {chapter}{\numberline {7}Maintenance et Sauvegarde}{11}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Procédures de Sauvegarde}{11}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Maintenance Préventive}{11}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Vérifications Quotidiennes}{11}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Vérifications Hebdomadaires}{11}{subsection.7.2.2}%
+\contentsline {chapter}{\numberline {8}Conclusion}{12}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Résumé du Système}{12}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Performances et Métriques}{12}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Évolutions Futures}{12}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Recommandations}{13}{section.8.4}%

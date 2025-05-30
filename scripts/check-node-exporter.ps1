@@ -172,10 +172,10 @@ function Show-CPUMetrics {
         if ($windowsMetrics.status -eq "success" -and $windowsMetrics.data.result.Count -gt 0) {
             $cpuUsage = [math]::Round([double]$windowsMetrics.data.result[0].value[1], 2)
             Write-Host "✅ Métriques CPU Windows disponibles" -ForegroundColor Green
-            Write-Host "   Utilisation CPU actuelle: $cpuUsage%" -ForegroundColor White
+            Write-Host "   Utilisation CPU actuelle: $cpuUsage pourcent" -ForegroundColor White
 
             if ($cpuUsage -gt 85) {
-                Write-Host "WARNING: CPU au-dessus du seuil d'alerte (85%)" -ForegroundColor Red
+                Write-Host "WARNING: CPU au-dessus du seuil d'alerte (85 pourcent)" -ForegroundColor Red
             }
 
             return $true

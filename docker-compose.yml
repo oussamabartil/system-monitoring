@@ -110,6 +110,21 @@ services:
       - monitoring
     restart: unless-stopped
 
+  # Blackbox Exporter - Monitoring des endpoints externes (temporairement désactivé)
+  # blackbox-exporter:
+  #   image: prom/blackbox-exporter:latest
+  #   platform: linux/amd64
+  #   container_name: blackbox-exporter
+  #   ports:
+  #     - "9115:9115"
+  #   volumes:
+  #     - ./blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml
+  #   command:
+  #     - '--config.file=/etc/blackbox_exporter/config.yml'
+  #   networks:
+  #     - monitoring
+  #   restart: unless-stopped
+
 networks:
   monitoring:
     driver: bridge

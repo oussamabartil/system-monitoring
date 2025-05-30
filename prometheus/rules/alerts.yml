@@ -4,13 +4,13 @@ groups:
     rules:
       # Alerte CPU élevé
       - alert: HighCPUUsage
-        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
-        for: 5m
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 30
+        for: 2m
         labels:
           severity: critical
           alert_type: cpu_high
         annotations:
-          summary: "CPU usage is above 85%"
+          summary: "CPU usage is above 30%"
           description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
 
       # Alerte mémoire élevée

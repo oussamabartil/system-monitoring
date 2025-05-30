@@ -53,23 +53,23 @@ scrape_configs:
     scrape_interval: 5s
     metrics_path: /metrics
 
-  # Configuration pour scraper des services externes (exemple)
-  - job_name: 'blackbox'
-    metrics_path: /probe
-    params:
-      module: [http_2xx]
-    static_configs:
-      - targets:
-        - http://prometheus.io
-        - https://prometheus.io
-        - http://example.com:8080
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: blackbox-exporter:9115
+  # Configuration pour scraper des services externes (temporairement désactivé)
+  # - job_name: 'blackbox'
+  #   metrics_path: /probe
+  #   params:
+  #     module: [http_2xx]
+  #   static_configs:
+  #     - targets:
+  #       - http://prometheus.io
+  #       - https://prometheus.io
+  #       - http://example.com:8080
+  #   relabel_configs:
+  #     - source_labels: [__address__]
+  #       target_label: __param_target
+  #     - source_labels: [__param_target]
+  #       target_label: instance
+  #     - target_label: __address__
+  #       replacement: blackbox-exporter:9115
 
 # Configuration pour la découverte automatique de services Docker
   - job_name: 'docker-containers'
